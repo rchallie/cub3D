@@ -1,4 +1,4 @@
-# ❌ Cub3D
+# ❌ cub3D
 Cub3D (42cursus) 2019-2020
 
 - Actual Status : In progress.
