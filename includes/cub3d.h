@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:52:11 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 18:54:11 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/11/28 20:06:19 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include "../libft/libft.h"
 # include "utils.h"
 # include <mlx.h>
+
+typedef	struct		s_player
+{
+
+}					t_player;
 
 typedef	struct		s_window
 {
@@ -36,7 +41,10 @@ typedef	struct		s_window
 	char			**map;
 	int				map_width;
 	int				map_height;
+	t_player		player;
 }					t_window;
+
+
 
 int					key_manager(int key, void *param);
 int					mouse_manager(int button, int x, int y, void *param);
@@ -55,5 +63,8 @@ void				path_from_string(char *line, int c0, int c1,
 void				color_from_string(char *line, int c, t_window *win_infos);
 char				*treat_desc(char *map_name, t_window *win_infos);
 char				**map_from_string(char *str, t_window *win_infos);
+
+void				pixel_put_cinq(int x, int y, int color, t_window win_infos);
+void				draw_minimap(t_window win_infos);
 
 #endif

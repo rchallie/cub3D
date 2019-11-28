@@ -6,7 +6,7 @@
 #    By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/22 10:43:56 by rchallie          #+#    #+#              #
-#    Updated: 2019/11/28 17:59:12 by rchallie         ###   ########.fr        #
+#    Updated: 2019/11/28 20:06:41 by rchallie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ SRCS = 	cub3d.c \
 		sources/managers/key_manager.c \
 		sources/managers/mouse_manager.c \
 		sources/managers/loop_manager.c \
-		sources/managers/window_manager.c
+		sources/managers/window_manager.c \
+		sources/engine/pixel_put.c \
+		sources/engine/mini_map.c
 
 OBJSRCS = $(SRCS:.c=.o)
 
