@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 15:52:22 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 17:59:28 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/04 15:23:11 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void		get_infos(
 	int rtn_reader,
 	t_window *win_infos)
 {
+	char *save_map_string;
+
 	if (line[0] == 'R')
 		window_size_from_string(line, win_infos);
 	else if ((line[0] == 'N' && line[1] == 'O')
@@ -32,7 +34,12 @@ static void		get_infos(
 	{
 		*map_string = ft_strjoin(*map_string, line);
 		if (rtn_reader != 0)
+		{
+			save_map_string = *map_string;
 			*map_string = ft_strjoin(*map_string, "\n");
+			free(save_map_string);
+		}
+		free(line);
 	}
 }
 

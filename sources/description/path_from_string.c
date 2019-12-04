@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 13:35:17 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 15:33:28 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/04 15:23:00 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ void			path_from_string(
 	int		i;
 
 	if (!check_line_format(line, c0, c1))
-		leave_prog_str("Error\n> From path not at well format : ",
-		line, 1, *win_infos);
+		leave_prog_str("Error\n> Wrong path : ", line, 1, *win_infos);
 	i = (line[2] == ' ') ? 3 : 2;
 	while (line[i] == ' ')
 		i++;
@@ -97,4 +96,5 @@ void			path_from_string(
 		win_infos->path_east = path;
 	else if (c0 == 'S' && c1 == ' ')
 		win_infos->path_sprite = path;
+	free(line);
 }

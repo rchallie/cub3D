@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:10:34 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 15:32:29 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/04 15:18:57 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ void			color_from_string(
 		win_infos->color_floor = rgb;
 	else if (c == 'C')
 		win_infos->color_ceiling = rgb;
+	free(line);
 }

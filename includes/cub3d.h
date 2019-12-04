@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:52:11 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 20:06:19 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/04 17:07:41 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,81 @@
 # define CUB3D_H
 
 # define ESC 53
+# define TOWARD 13
+# define BACKWARD 1
+# define LEFT 0
+# define RIGHT 2
 
 # include "../libft/libft.h"
 # include "utils.h"
 # include <mlx.h>
+# include <math.h>
+
+typedef struct	s_ray
+{
+	int			pix;
+	int			mapx;
+	int			mapy;
+	double		cameraX;
+	double		rayDirX;
+	double		rayDirY;
+	double		sideDistX;
+    double		sideDistY;
+	double		deltaDistX;
+	double		deltaDistY;
+	double		perpWallDist;
+	int			stepX;
+	int			stepY;
+	int			hit;
+	int			side;
+	int			lineHeight;
+	int			drawStart;
+	int			drawEnd;
+}				t_ray;
+
+typedef struct		s_image
+{
+	int				width;
+	int				height;
+	int				size_line;
+	int				bpp;
+	int				endian;
+	void			*img_ptr;
+	char			*data;
+}					t_image;
+
+typedef struct		s_keybuffer
+{
+	int				toward;
+	int				backward;
+	int				left;
+	int				right;
+}					t_keybuffer;
+
+typedef struct		s_map
+{
+	char			**map;
+	char			*map_name;
+	int				width;
+	int				height;
+}					t_map;
 
 typedef	struct		s_player
 {
-
+	double			posx;
+	double			posy;
+	double			speed;
+	double			dirX;
+	double			dirY;
+	double			planeX;
+	double			planeY;
+	double			rotate_speed;
 }					t_player;
 
 typedef	struct		s_window
 {
 	void			*mlx_ptr;
 	void			*win_ptr;
-	char			*map_name;
 	int				width;
 	int				height;
 	char			*path_north;
@@ -38,15 +98,15 @@ typedef	struct		s_window
 	char			*path_sprite;
 	int				color_floor;
 	int				color_ceiling;
-	char			**map;
-	int				map_width;
-	int				map_height;
-	t_player		player;
+	t_map			*map;
+	t_keybuffer		*keybuffer;
+	t_player		*player;
+	t_image			*img;
 }					t_window;
 
-
-
-int					key_manager(int key, void *param);
+int					key_pressed(int key, void *param);
+int					key_released(int key, void *param);
+int					key_manager(t_window *win_infos);
 int					mouse_manager(int button, int x, int y, void *param);
 int					loop_manager(void *param);
 void				leave_prog(t_window win_infos);
@@ -65,6 +125,18 @@ char				*treat_desc(char *map_name, t_window *win_infos);
 char				**map_from_string(char *str, t_window *win_infos);
 
 void				pixel_put_cinq(int x, int y, int color, t_window win_infos);
-void				draw_minimap(t_window win_infos);
+void				draw_minimap(t_window *win_infos);
+
+void				move_left(t_window *win_infos);
+void				move_right(t_window *win_infos);
+void				move_forward(t_window *win_infos);
+void				move_backward(t_window *win_infos);
+
+void				pixel_put_to_image(int color,int x, int y, t_window *win_infos);
+void				verLine_image(int x, int y0, int y1, t_window *win_infos, int color);
+t_image				*new_image(t_window *win_infos, int x_len, int	y_len);
+
+void				raycasting(t_window *win_infos);
+void				colorisation(t_ray *ray, t_window *win_infos);
 
 #endif

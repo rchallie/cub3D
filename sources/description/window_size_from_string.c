@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:43:09 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 15:35:06 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/04 15:18:25 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,5 @@ void			window_size_from_string(
 	while (line[i] == ' ')
 		i++;
 	win_infos->height = get_size(line, i);
+	free(line);
 }
