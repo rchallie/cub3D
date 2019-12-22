@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   treat_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:58:52 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/04 15:32:20 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/16 19:44:31 by excalibur        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ static char		**malloc_map(
 
 	if (!(map = (char **)malloc(sizeof(char *) * win_infos->map->height)))
 		leave_prog_int("Error\n> Malloc failed on map init (1) : ",
-		win_infos->map->height, 1, *win_infos);
+		win_infos->map->height, 1, win_infos);
 	i = 0;
 	while (i < win_infos->map->height)
 	{
 		if (!(map[i] = (char *)malloc(sizeof(char) * win_infos->map->width)))
 		{
 			leave_prog_int("Error\n> Malloc failed on map init (1) : ",
-			win_infos->map->width, 1, *win_infos);
+			win_infos->map->width, 1, win_infos);
 		}
 		i++;
 	}

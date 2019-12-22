@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:39:20 by rchallie          #+#    #+#             */
-/*   Updated: 2019/11/28 15:40:21 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/17 13:31:56 by excalibur        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/utils.h"
 #include "../includes/cub3d.h"
 
-static char		*join_str(char const *s1, char c)
+static char		*join_str(char *s1, char c)
 {
 	size_t	s1_len;
 	size_t	stot_len;
@@ -22,10 +22,14 @@ static char		*join_str(char const *s1, char c)
 	if (c == '\n')
 	{
 		if (s1)
-			return (ft_strdup(s1));
+		{
+			rtn = ft_strdup(s1);
+			free(s1);
+			return (rtn);
+		}
 		else
 		{
-			if (!(rtn = malloc(sizeof(char) * 1)))
+			if (!(rtn = malloc(sizeof(char))))
 				return (0);
 			rtn[0] = '\0';
 			return (rtn);
@@ -42,7 +46,10 @@ static char		*join_str(char const *s1, char c)
 	return (rtn);
 }
 
-int				get_line(int fd, char **line)
+int				get_line(
+	int fd,
+	char **line
+)
 {
 	char	buffer;
 	int		reader;

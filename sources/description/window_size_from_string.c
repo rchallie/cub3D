@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_size_from_string.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:43:09 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/04 15:18:25 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/17 16:11:42 by excalibur        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int		get_size(
 	char *str,
-	int start)
+	int start
+)
 {
 	int rtn;
 
@@ -25,42 +26,40 @@ static int		get_size(
 }
 
 static int		check_line_format(
-	char *str)
+	char *str
+)
 {
 	int i;
 
 	if (!str || str[0] != 'R' || str[1] != ' ')
-		return (0);
+		return (ERROR);
 	i = 1;
 	while (str[i] == ' ')
 		i++;
 	if (!ft_isdigit(str[i]))
-		return (0);
+		return (ERROR);
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] != ' ')
-		return (0);
+		return (ERROR);
 	while (str[i] == ' ')
 		i++;
 	while (ft_isdigit(str[i]))
 		i++;
 	if (str[i] != '\0')
-		return (0);
-	return (1);
+		return (ERROR);
+	return (SUCCES);
 }
 
-void			window_size_from_string(
+int			window_size_from_string(
 	char *line,
-	t_window *win_infos)
+	t_window *win_infos
+)
 {
 	int i;
 
 	if (!check_line_format(line))
-	{
-		putstr_info_str("Error\n> Resolution line not at well format : ",
-		line, 1);
-		leave_prog(*win_infos);
-	}
+		return (ERROR);
 	i = 1;
 	while (line[i] == ' ')
 		i++;
@@ -70,5 +69,5 @@ void			window_size_from_string(
 	while (line[i] == ' ')
 		i++;
 	win_infos->height = get_size(line, i);
-	free(line);
+	return (SUCCES);
 }

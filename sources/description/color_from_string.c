@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_from_string.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 15:10:34 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/04 15:18:57 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/17 17:36:16 by excalibur        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,16 @@ static int		get_color_from_rgb(
 	int g,
 	int b)
 {
-	int c;
-
-	c = r;
-	c = (c << 8) | g;
-	c = (c << 8) | b;
-	return (c);
+	int rgb = r;
+	rgb = (rgb << 8) + g;
+	rgb = (rgb << 8) + b;
+	return (rgb);
 }
 
 static int		get_num_color(
 	char *line,
 	int *i,
-	t_window win_infos)
+	t_window *win_infos)
 {
 	int color;
 
@@ -60,7 +58,7 @@ static int		get_num_color(
 	return (color);
 }
 
-void			color_from_string(
+int			color_from_string(
 	char *line,
 	int c,
 	t_window *win_infos)
@@ -74,14 +72,16 @@ void			color_from_string(
 	rgb = 0;
 	if (!check_line_format(line, c))
 		leave_prog_str("Error\n> Color line not at well format : ",
-		line, 1, *win_infos);
+		line, 1, win_infos);
 	i = 1;
 	while (line[i] == ' ')
 		i++;
-	r = get_num_color(line, &i, *win_infos);
-	g = get_num_color(line, &i, *win_infos);
-	b = get_num_color(line, &i, *win_infos);
+	r = get_num_color(line, &i, win_infos);
+	g = get_num_color(line, &i, win_infos);
+	b = get_num_color(line, &i, win_infos);
+	printf("r: %d | g: %d | b: %d\n", r, g, b);
 	rgb = get_color_from_rgb(r, g, b);
+	printf("rgb : %d\n", rgb);
 	if (c == 'F')
 		win_infos->color_floor = rgb;
 	else if (c == 'C')

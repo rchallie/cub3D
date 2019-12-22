@@ -3,27 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 16:21:39 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/04 17:08:02 by rchallie         ###   ########.fr       */
+/*   Updated: 2019/12/19 22:23:14 by excalibur        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static void		perp_and_height(t_ray *ray, t_player *player, t_window *win_infos)
+static void		perp_and_height(
+	t_ray *ray,
+	t_player *player,
+	t_window *win_infos
+)
 {
 	// Calculer la distance du rayon perpendiculaire
-	if (ray->side == 0 || ray->side == 1) ray->perpWallDist = (ray->mapx - player->posx + (1 - ray->stepX) / 2) / ray->rayDirX;
-	else           ray->perpWallDist = (ray->mapy - player->posy + (1 - ray->stepY) / 2) / ray->rayDirY;
+	if (ray->side == 0 || ray->side == 1)
+		ray->perpWallDist = (ray->mapx - player->posx + (1 - ray->stepX) / 2) 
+		/ ray->rayDirX;
+	else
+	ray->perpWallDist = (ray->mapy - player->posy + (1 - ray->stepY) / 2)
+		/ ray->rayDirY;
 	
 	// Calculer le pixel le plus bas et le plus haut pour print une ligne 
 	ray->lineHeight = (int)(win_infos->height / ray->perpWallDist);
 	ray->drawStart = -ray->lineHeight / 2 + win_infos->height / 2;
-	if(ray->drawStart < 0) ray->drawStart = 0;
+	if(ray->drawStart < 0)
+		ray->drawStart = 0;
 	ray->drawEnd = ray->lineHeight / 2 + win_infos->height / 2;
-	if(ray->drawEnd >= win_infos->height) ray->drawEnd = win_infos->height - 1;
+	if(ray->drawEnd >= win_infos->height)
+		ray->drawEnd = win_infos->height - 1;
 }
 
 static void		hit(t_ray *ray, t_window *win_infos)
@@ -50,7 +60,8 @@ static void		hit(t_ray *ray, t_window *win_infos)
 				ray->side = 3;
 		}
 		// Check si le rayon tappe un mur 
-		if (win_infos->map->map[ray->mapy][ray->mapx] > '0') ray->hit = 1;
+		if (win_infos->map->map[ray->mapy][ray->mapx] > '0')
+			ray->hit = 1;
 	}
 }
 
@@ -117,4 +128,5 @@ void			raycasting(
 		ray->pix++;
 	}
 	mlx_put_image_to_window(win_infos->mlx_ptr, win_infos->win_ptr, win_infos->img->img_ptr, 0, 0);
+	free(ray);
 }
