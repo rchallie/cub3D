@@ -3,22 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+         #
+#    By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/22 10:43:56 by rchallie          #+#    #+#              #
-#    Updated: 2019/12/17 12:30:37 by excalibur        ###   ########.fr        #
+#    Updated: 2020/01/11 14:33:22 by rchallie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#MLX = -lmlx -framework OpenGL -framework AppKit -fsanitize=address
-MLX = -I /usr/include -g -L /usr/lib -lX11 -lmlx -lXext -lm -fsanitize=address
+MLX = -lmlx -lm -framework OpenGL -framework AppKit
+#MLX = -I /usr/include -g -L /usr/lib -lX11 -lmlx -lXext -lm -fsanitize=address
 
 NAME = Cub3D
-NAMELIB = cub3d.a
 
 SRCS = 	cub3d.c \
 		utils/putstr_info.c \
 		utils/get_line.c \
+		utils/utils.c \
+		utils/bitmap.c \
 		sources/init_game.c \
 		sources/description/window_size_from_string.c \
 		sources/description/path_from_string.c \
@@ -32,15 +33,22 @@ SRCS = 	cub3d.c \
 		sources/engine/player.c \
 		sources/engine/image.c \
 		sources/engine/raycasting.c \
-		sources/engine/textures.c
+		sources/engine/raycasting_2.c \
+		sources/engine/textures.c \
+		sources/engine/camera.c \
+		sources/engine/draw_sprite.c \
+		sources/engine/sprite.c
 
 OBJSRCS = $(SRCS:.c=.o)
 
 $(NAME) : $(OBJSRCS)
-	rm -rf Cub3D
-	$(MAKE) bonus -C ./libft
-	#gcc -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a $(OBJSRCS) -o $(NAME)
-	gcc $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
+	@echo "\033[33m[Remove last version...]"
+	@rm -rf Cub3D
+	@echo "\033[33m[Libft compilation...]"
+	@$(MAKE) bonus -C ./libft
+	@echo "\033[33m[Cub3D compilation...]"
+	@gcc $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
+	@echo "\033[33m[Done !]"
 
 all : $(NAME)
 
@@ -51,6 +59,6 @@ clean :
 fclean : clean
 	$(MAKE) fclean -C ./libft
 	rm -rf $(NAME)
-	rm -rf $(NAMELIB)
+	rm -rf cub3d.bmp
 
 re : fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window_size_from_string.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:43:09 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/17 16:11:42 by excalibur        ###   ########.fr       */
+/*   Updated: 2020/01/11 14:40:42 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,32 @@ static int		check_line_format(
 {
 	int i;
 
-	if (!str || str[0] != 'R' || str[1] != ' ')
+	i = 0;
+	while (is_whitespace(str[i]))
+		i++;
+	if (!str || str[i] != 'R' || str[i + 1] != ' ')
 		return (ERROR);
-	i = 1;
-	while (str[i] == ' ')
+	i = i + 1;
+	while (is_whitespace(str[i]))
 		i++;
 	if (!ft_isdigit(str[i]))
 		return (ERROR);
 	while (ft_isdigit(str[i]))
 		i++;
-	if (str[i] != ' ')
+	if (!is_whitespace(str[i]))
 		return (ERROR);
-	while (str[i] == ' ')
+	while (is_whitespace(str[i]))
 		i++;
 	while (ft_isdigit(str[i]))
 		i++;
-	if (str[i] != '\0')
+	while (is_whitespace(str[i]))
+		i++;
+	if (!is_whitespace(str[i]) && str[i] != '\0')
 		return (ERROR);
 	return (SUCCES);
 }
 
-int			window_size_from_string(
+int				window_size_from_string(
 	char *line,
 	t_window *win_infos
 )
@@ -59,15 +64,22 @@ int			window_size_from_string(
 	int i;
 
 	if (!check_line_format(line))
-		return (ERROR);
-	i = 1;
-	while (line[i] == ' ')
+		leave(1, win_infos, ft_strjoin("Error\nWin Line format : ", line));
+	i = 0;
+	while (is_whitespace(line[i]))
+		i++;
+	i += 1;
+	while (is_whitespace(line[i]))
 		i++;
 	win_infos->width = get_size(line, i);
+	if (win_infos->width > 2560)
+		win_infos->width = 2560;
 	while (ft_isdigit(line[i]))
 		i++;
-	while (line[i] == ' ')
+	while (is_whitespace(line[i]))
 		i++;
 	win_infos->height = get_size(line, i);
+	if (win_infos->height > 1440)
+		win_infos->height = 1440;
 	return (SUCCES);
 }

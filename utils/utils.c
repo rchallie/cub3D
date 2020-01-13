@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/22 15:10:31 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/11 14:33:04 by rchallie         ###   ########.fr       */
+/*   Created: 2020/01/11 14:32:11 by rchallie          #+#    #+#             */
+/*   Updated: 2020/01/11 16:32:46 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "../includes/cub3d.h"
 
-# include <fcntl.h>
-
-void	putstr_info_int(char *str, int i, int fd);
-void	putstr_info_char(char *str, char c, int fd);
-void	putstr_info_str(char *str, char *st, int fd);
-void	putstr_info_cmd();
-
-int		get_next_line(int fd, char **line);
-
-int		is_whitespace(int c);
-
-#endif
+int				is_whitespace(
+	int c
+)
+{
+	if (c == '\t' || c == '\n' || c == '\r'
+		|| c == '\v' || c == '\f' || c == ' ')
+		return (SUCCES);
+	return (ERROR);
+}

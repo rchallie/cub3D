@@ -3,35 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   path_from_string.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 13:35:17 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/17 17:12:07 by excalibur        ###   ########.fr       */
+/*   Updated: 2020/01/11 14:40:18 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-static int		set_texture(
-	t_window *win_infos,
-	const char *path,
-	int texture_index
-)
-{
-	if(!(win_infos->textures[texture_index]->img_ptr = 
-		mlx_xpm_file_to_image(win_infos->mlx_ptr, path,
-		&win_infos->textures[texture_index]->width, 
-		&win_infos->textures[texture_index]->height)))
-			return (ERROR);
-	win_infos->textures[texture_index]->data = 
-		mlx_get_data_addr(win_infos->textures[texture_index]->img_ptr,
-		&win_infos->textures[texture_index]->bpp,
-		&win_infos->textures[texture_index]->size_line,
-		&win_infos->textures[texture_index]->endian);	
-	return (SUCCES);
-}
-
-static int		get_size(
+static int			get_size(
 	char *str,
 	int start
 )
@@ -39,42 +20,44 @@ static int		get_size(
 	int rtn;
 
 	rtn = 0;
-	while (ft_isprint(str[rtn]))
+	while (ft_isprint(str[start + rtn]) && str[start + rtn] != '\t'
+			&& str[start + rtn] != '\n' && str[start + rtn] != '\r'
+			&& str[start + rtn] != '\v' && str[start + rtn] != ' ')
 		rtn++;
 	return (rtn);
 }
 
-static int		check_line_format(
-	char *str,
-	int c0,
-	int c1
+static int			check_line_format(
+	char *str
 )
 {
 	int i;
 
-	if (!str || str[0] != c0 || str[1] != c1 || str[2] != ' ')
-		if (c1 != ' ')
-			return (ERROR);
-		else
-			i = 1;
-	else
-		i = 2;
-	while (str[i] == ' ')
+	i = 0;
+	while (is_whitespace(str[i]))
 		i++;
-	if (str[i] != '.')
+	if (str[i] != 'N' && str[i] != 'S' && str[i] != 'W'
+		&& str[i] != 'E')
 		return (ERROR);
 	i++;
-	if (str[i] != '/')
+	if (str[i] != 'O' && str[i] != 'E' && str[i] != 'A'
+		&& !is_whitespace(str[i]))
 		return (ERROR);
 	i++;
-	while (ft_isprint(str[i]))
+	while (is_whitespace(str[i]))
 		i++;
-	if (str[i] != '\0')
+	if (str[i] != '.' && str[i + 1] != '/')
 		return (ERROR);
-	return (SUCCES);
+	while (ft_isprint(str[i]) && !is_whitespace(str[i]) && str[i] != '\0')
+		i++;
+	if (!is_whitespace(str[i]) && str[i] != '\0')
+		return (ERROR);
+	while (is_whitespace(str[i]))
+		i++;
+	return (str[i] != '\0' ? ERROR : SUCCES);
 }
 
-static int		file_exists(
+static int			file_exists(
 	const char *fname
 )
 {
@@ -83,43 +66,45 @@ static int		file_exists(
 
 	fname_len = ft_strlen(fname);
 	if ((fd = open(fname, O_RDONLY)) == -1)
-		return (close(fd));
-	if(fname[fname_len - 1] != 'm' || fname[fname_len - 2] != 'p' 
+	{
+		close(fd);
+		return (ERROR);
+	}
+	if (fname[fname_len - 1] != 'm' || fname[fname_len - 2] != 'p'
 		|| fname[fname_len - 3] != 'x' || fname[fname_len - 4] != '.')
 		return (ERROR);
 	return (SUCCES);
 }
 
-int			path_from_string(
+int					path_from_string(
 	char *line,
-	int c0,
-	int c1,
+	t_first_chars *fc,
+	int first_char_pos,
 	t_window *win_infos
 )
 {
 	char	*path;
 	int		i;
 
-	if (!check_line_format(line, c0, c1))
-		return (ERROR);
-	i = (line[2] == ' ') ? 3 : 2;
-	while (line[i] == ' ')
+	if (!check_line_format(line))
+		leave(1, win_infos, ft_strjoin("Error\nPath Line format : ", line));
+	i = (line[first_char_pos + 1] == ' ') ?
+		first_char_pos + 2 : first_char_pos + 3;
+	while (is_whitespace(line[i]))
 		i++;
-	if (!(path = ft_substr(line, i, get_size(line, i))))
-		return (ERROR);
-	if (!file_exists(path))
-		return (ERROR);
-	if (c0 == 'N' && c1 == 'O')
+	if (!(path = ft_substr(line, i, get_size(line, i))) || !file_exists(path))
+		leave(1, win_infos, ft_strjoin("Error\nInvalid Path : ", line));
+	if (fc->c0 == 'N' && fc->c1 == 'O')
 		return (set_texture(win_infos, path, 0));
-	else if (c0 == 'S' && c1 == 'O')
+	else if (fc->c0 == 'S' && fc->c1 == 'O')
 		return (set_texture(win_infos, path, 1));
-	else if (c0 == 'W' && c1 == 'E')
+	else if (fc->c0 == 'W' && fc->c1 == 'E')
 		return (set_texture(win_infos, path, 2));
-	else if (c0 == 'E' && c1 == 'A')
+	else if (fc->c0 == 'E' && fc->c1 == 'A')
 		return (set_texture(win_infos, path, 3));
-	else if (c0 == 'S' && c1 == ' ')
-		win_infos->path_sprite = path;
+	else if (fc->c0 == 'S' && fc->c1 == ' ')
+		return (stock_sprite(path, win_infos));
 	free(path);
 	free(line);
-	// AJOUTER UN RETURN ERROR QUAND SPRITE SERA INIT COMME IL FAUT
+	return (SUCCES);
 }

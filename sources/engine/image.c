@@ -3,30 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 11:12:36 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/17 12:18:55 by excalibur        ###   ########.fr       */
+/*   Updated: 2020/01/08 13:51:59 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-
 void		pixel_put_to_image(
 	int color,
 	int x,
 	int y,
-	t_window *win_infos)
+	t_window *win_infos
+)
 {
+	unsigned char *src;
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
 
-    unsigned char *src = (unsigned char *) &color;
-    unsigned char r;
-    unsigned char g;
-    unsigned char b;
-    r = src[0];
-    g = src[1];
-    b = src[2];
+	src = (unsigned char *)&color;
+	r = src[0];
+	g = src[1];
+	b = src[2];
 	win_infos->img->data[y * win_infos->img->size_line + x
 							* win_infos->img->bpp / 8] = r;
 	win_infos->img->data[y * win_infos->img->size_line + x
@@ -35,56 +36,87 @@ void		pixel_put_to_image(
 							* win_infos->img->bpp / 8 + 2] = b;
 }
 
-void verLine_color_image(int x, int y0, int y1, t_window *win_infos, int color)
+void		ver_line_color_image(
+	t_line *line,
+	t_window *win_infos,
+	int color
+)
 {
 	int y;
 	int y_max;
 
-	if (y0 < y1)
+	if (line->y0 < line->y1)
 	{
-		y = y0;
-		y_max = y1;
+		y = line->y0;
+		y_max = line->y1;
 	}
 	else
 	{
-		y = y1;
-		y_max = y0;
+		y = line->y1;
+		y_max = line->y0;
 	}
-	while (y < y_max)
+	if (y >= 0)
 	{
-		pixel_put_to_image(color, x, y, win_infos);
-		y++;
+		while (y < y_max)
+		{
+			pixel_put_to_image(color, line->x, y, win_infos);
+			y++;
+		}
 	}
 }
 
-void verLine_texture_image(int x, int y0, int y1, t_window *win_infos, t_image *texture, t_ray *ray, int texX)
+static void	texture_on_img(
+	t_line *line,
+	t_image *texture,
+	t_window *win_infos,
+	t_ray *ray
+)
 {
-	int y;
+	int d;
+
+	d = line->y * texture->size_line - win_infos->height * texture->size_line
+		/ 2 + ray->line_height * texture->size_line / 2;
+	line->tex_y = ((d * texture->height) / ray->line_height)
+		/ texture->size_line;
+	win_infos->img->data[line->y * win_infos->img->size_line + line->x
+					* win_infos->img->bpp / 8] = texture->data[line->tex_y
+					* texture->size_line + line->tex_x * (texture->bpp / 8)];
+	win_infos->img->data[line->y * win_infos->img->size_line + line->x
+					* win_infos->img->bpp / 8 + 1] = texture->data[line->tex_y
+					* texture->size_line + line->tex_x * (texture->bpp / 8)
+					+ 1];
+	win_infos->img->data[line->y * win_infos->img->size_line + line->x
+					* win_infos->img->bpp / 8 + 2] = texture->data[line->tex_y
+					* texture->size_line + line->tex_x * (texture->bpp / 8)
+					+ 2];
+}
+
+void		ver_line_texture_image(
+	t_line *line,
+	t_window *win_infos,
+	t_image *texture,
+	t_ray *ray
+)
+{
 	int y_max;
 
-	if (y0 < y1)
+	if (line->y0 < line->y1)
 	{
-		y = y0;
-		y_max = y1;
+		line->y = line->y0;
+		y_max = line->y1;
 	}
 	else
 	{
-		y = y1;
-		y_max = y0;
+		line->y = line->y1;
+		y_max = line->y0;
 	}
-	while (y < y_max)
+	if (line->y >= 0)
 	{
-		//printf("%d\n", texture->bpp / 8);
-		int d = y * texture->size_line - win_infos->height * texture->size_line / 2 + ray->lineHeight * texture->size_line / 2;
-		int texY = ((d * texture->height) / ray->lineHeight) / texture->size_line;
-		//pixel_put_to_image(color, x, y, win_infos);
-		win_infos->img->data[y * win_infos->img->size_line + x
-						* win_infos->img->bpp / 8] = texture->data[texY * texture->size_line + texX * texture->bpp / 8];
-		win_infos->img->data[y * win_infos->img->size_line + x
-						* win_infos->img->bpp / 8 + 1] = texture->data[texY * texture->size_line + texX * texture->bpp / 8 + 1];
-		win_infos->img->data[y * win_infos->img->size_line + x
-						* win_infos->img->bpp / 8 + 2] = texture->data[texY * texture->size_line + texX * texture->bpp / 8 + 2];
-		y++;
+		while (line->y < y_max)
+		{
+			texture_on_img(line, texture, win_infos, ray);
+			line->y++;
+		}
 	}
 }
 
@@ -96,10 +128,10 @@ t_image		*new_image(
 	t_image *img;
 
 	if (!(img = malloc(sizeof(t_image))))
-		return ;
+		return (void *)0;
 	ft_bzero(img, sizeof(t_image));
 	if (!(img->img_ptr = mlx_new_image(win_infos->mlx_ptr, x_len, y_len)))
-		return ;
+		return (void *)0;
 	img->data = mlx_get_data_addr(img->img_ptr, &img->bpp,
 				&img->size_line, &img->endian);
 	img->width = x_len;

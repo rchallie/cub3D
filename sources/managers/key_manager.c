@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: excalibur <excalibur@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 14:05:43 by rchallie          #+#    #+#             */
-/*   Updated: 2019/12/17 12:28:22 by excalibur        ###   ########.fr       */
+/*   Updated: 2020/01/10 15:40:29 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		key_manager(
 	return (0);
 }
 
-int		key_released(
+int		event_key_released(
 	int key,
 	void *param
 )
@@ -57,7 +57,7 @@ int		key_released(
 	return (0);
 }
 
-int		key_pressed(
+int		event_key_pressed(
 	int key,
 	void *param
 )
@@ -66,7 +66,7 @@ int		key_pressed(
 
 	win_infos = (t_window *)param;
 	if (key == ESC)
-		leave_prog_simple("> Close ! Bye bye !\n\n", 1, win_infos);
+		leave(0, win_infos, "");
 	else if (key == TOWARD && win_infos->keybuffer->toward == 0)
 		win_infos->keybuffer->toward = 1;
 	else if (key == BACKWARD && win_infos->keybuffer->backward == 0)
