@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 13:35:17 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/11 14:40:18 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:25:38 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int			check_line_format(
 	while (is_whitespace(str[i]))
 		i++;
 	if (str[i] != 'N' && str[i] != 'S' && str[i] != 'W'
-		&& str[i] != 'E')
+		&& str[i] != 'E' && str[i] != 'H')
 		return (ERROR);
 	i++;
 	if (str[i] != 'O' && str[i] != 'E' && str[i] != 'A'
@@ -104,7 +104,7 @@ int					path_from_string(
 		return (set_texture(win_infos, path, 3));
 	else if (fc->c0 == 'S' && fc->c1 == ' ')
 		return (stock_sprite(path, win_infos));
-	free(path);
-	free(line);
+	else if (fc->c0 == 'H' && fc->c1 == ' ')
+		return (set_texture(win_infos, path, 4));
 	return (SUCCES);
 }

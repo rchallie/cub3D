@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 15:52:22 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/11 14:48:44 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:23:35 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,9 @@ static int		is_from_path(
 		return (NEXT);
 	if (fc->c0 == 'R')
 		return (window_size_from_string(line, win_infos));
-	else if ((line[first_char] == 'N')
-			|| (line[first_char] == 'S')
-			|| (line[first_char] == 'W')
-			|| (line[first_char] == 'E'))
+	else if ((line[first_char] == 'N') || (line[first_char] == 'S')
+			|| (line[first_char] == 'W') || (line[first_char] == 'E')
+			|| (line[first_char] == 'H'))
 		return (path_from_string(line, fc, first_char, win_infos));
 	else if (line[first_char] == 'F' || line[first_char] == 'C')
 	{

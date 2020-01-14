@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 09:15:45 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/09 10:29:19 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:41:23 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void			calcul_values(
 	t_window *win_infos
 )
 {
-	ds->sprite_x = ds->sprites[ds->i].x - (win_infos->player->posx - 0.5);
-	ds->sprite_y = ds->sprites[ds->i].y - (win_infos->player->posy - 0.5);
 	ds->inv_det = 1.0 / (win_infos->player->plane_x * win_infos->player->dir_y
 		- win_infos->player->dir_x * win_infos->player->plane_y);
 	ds->transform_x = ds->inv_det * (win_infos->player->dir_y * ds->sprite_x
@@ -28,10 +26,12 @@ static void			calcul_values(
 	ds->sprite_screen_x = (int)((win_infos->width / 2) * (1 + ds->transform_x
 		/ ds->transform_y));
 	ds->sprite_height = abs((int)(win_infos->height / ds->transform_y));
-	ds->draw_start_y = -ds->sprite_height / 2 + win_infos->height / 2;
+	ds->draw_start_y = -ds->sprite_height / 2 + ((win_infos->height / 2)
+		* win_infos->player->cam_height);
 	if (ds->draw_start_y < 0)
 		ds->draw_start_y = 0;
-	ds->draw_end_y = ds->sprite_height / 2 + win_infos->height / 2;
+	ds->draw_end_y = ds->sprite_height / 2 + ((win_infos->height / 2)
+		* win_infos->player->cam_height);
 	if (ds->draw_end_y >= win_infos->height)
 		ds->draw_end_y = win_infos->height - 1;
 	ds->sprite_width = abs((int)(win_infos->height / ds->transform_y));
@@ -49,7 +49,8 @@ static void			pix_on_sprite_image(
 	t_window *win_infos
 )
 {
-	ds->d = ds->y * win_infos->sprite->size_line - win_infos->height
+	ds->d = ds->y * win_infos->sprite->size_line - (win_infos->height
+		* win_infos->player->cam_height)
 		* (win_infos->sprite->size_line / 2) + ds->sprite_height
 		* win_infos->sprite->size_line / 2;
 	ds->tex_y = ((ds->d * win_infos->sprite->height) / ds->sprite_height)
@@ -93,6 +94,8 @@ static void			make_sprite(
 	t_ray *ray
 )
 {
+	ds->sprite_x = ds->sprites[ds->i].x - (win_infos->player->posx - 0.5);
+	ds->sprite_y = ds->sprites[ds->i].y - (win_infos->player->posy - 0.5);
 	calcul_values(ds, win_infos);
 	while (ds->stripe < ds->draw_end_x)
 	{

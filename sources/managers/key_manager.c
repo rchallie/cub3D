@@ -6,11 +6,12 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 14:05:43 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/10 15:40:29 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/13 10:59:12 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
+#include "../../includes/bonus.h"
 
 int		key_manager(
 	t_window *win_infos
@@ -31,7 +32,8 @@ int		key_manager(
 		turn_left(win_infos);
 	if (win_infos->keybuffer->turn_right == 1)
 		turn_right(win_infos);
-	return (0);
+	bonus_key_manager(win_infos);
+	return (SUCCES);
 }
 
 int		event_key_released(
@@ -54,7 +56,8 @@ int		event_key_released(
 		win_infos->keybuffer->turn_left = 0;
 	else if (key == CAM_RIGHT && win_infos->keybuffer->turn_right == 1)
 		win_infos->keybuffer->turn_right = 0;
-	return (0);
+	bonus_event_key_released(key, win_infos);
+	return (SUCCES);
 }
 
 int		event_key_pressed(
@@ -65,6 +68,7 @@ int		event_key_pressed(
 	t_window	*win_infos;
 
 	win_infos = (t_window *)param;
+	printf("Key %d\n", key);
 	if (key == ESC)
 		leave(0, win_infos, "");
 	else if (key == TOWARD && win_infos->keybuffer->toward == 0)
@@ -79,5 +83,6 @@ int		event_key_pressed(
 		win_infos->keybuffer->turn_left = 1;
 	else if (key == CAM_RIGHT && win_infos->keybuffer->turn_right == 0)
 		win_infos->keybuffer->turn_right = 1;
-	return (0);
+	bonus_event_key_pressed(key, win_infos);
+	return (SUCCES);
 }

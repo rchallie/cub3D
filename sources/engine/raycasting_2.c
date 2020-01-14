@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 11:34:02 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/09 13:34:43 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:52:10 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ void		perp_and_height(
 		ray->perp_wall_dist = (ray->mapy - player->posy + (1 - ray->step_y) / 2)
 		/ ray->ray_dir_y;
 	ray->line_height = (int)(win_infos->height / ray->perp_wall_dist);
-	ray->draw_start = -ray->line_height / 2 + win_infos->height / 2;
+	ray->draw_start = (-ray->line_height / 2 + ((win_infos->height / 2)
+		* win_infos->player->cam_height));
 	if (ray->draw_start < 0)
 		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + win_infos->height / 2;
+	ray->draw_end = (ray->line_height / 2 + ((win_infos->height / 2)
+		* win_infos->player->cam_height));
 	if (ray->draw_end >= win_infos->height)
 		ray->draw_end = win_infos->height - 1;
 }

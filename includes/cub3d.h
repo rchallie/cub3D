@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:52:11 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/11 14:33:34 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/14 17:10:03 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define RIGHT 2
 # define CAM_LEFT 123
 # define CAM_RIGHT 124
+# define CAMUP 126
+# define CAMDOWN 125
 
 # define ERROR_INF -1
 # define ERROR 0
@@ -30,6 +32,12 @@
 # include "utils.h"
 # include <mlx.h>
 # include <math.h>
+# include <time.h>
+
+typedef struct			s_sound
+{
+	clock_t				last_start_song;
+}						t_sound;
 
 typedef struct			s_sprite
 {
@@ -127,6 +135,8 @@ typedef struct			s_keybuffer
 	int					right;
 	int					turn_left;
 	int					turn_right;
+	int					cam_up;
+	int					cam_down;
 }						t_keybuffer;
 
 typedef struct			s_map
@@ -147,6 +157,8 @@ typedef	struct			s_player
 	double				plane_x;
 	double				plane_y;
 	double				rotate_speed;
+	double				cam_height;
+	int					health;
 }						t_player;
 
 typedef	struct			s_window
@@ -167,6 +179,7 @@ typedef	struct			s_window
 	t_image				**textures;
 	t_image				*sprite;
 	t_sprites			*sprites_on_screen;
+	t_sound				*sound;
 }						t_window;
 
 void					leave(int mod, t_window *win_infos, char *msg);
@@ -201,7 +214,7 @@ void					move_right(t_window *win_infos);
 void					move_forward(t_window *win_infos);
 void					move_backward(t_window *win_infos);
 void					pixel_put_to_image(int color, int x, int y,
-						t_window *win_infos);
+						t_image *img);
 void					ver_line_color_image(t_line *line,
 						t_window *win_infos, int color);
 void					ver_line_texture_image(t_line *line,
@@ -223,5 +236,16 @@ void					is_sprite(t_ray *ray, t_window *win_infos);
 void					next_sprite(t_sprites *actual, t_sprites *new,
 						t_ray *ray);
 int						create_bitmap(t_image *mlx_img, char *name);
+
+int						bonus_key_manager(t_window *win_infos);
+int						bonus_event_key_released(int key, t_window *win_infos);
+int						bonus_event_key_pressed(int key, t_window *win_infos);
+void					turn_up(t_window *win_infos);
+void					turn_down(t_window *win_infos);
+void					draw_health(t_window *win_infos);
+void					add_health(t_window *win_infos, int amount);
+void					remove_health(t_window *win_infos, int amount);
+void					play_music(t_window *win_infos);
+int						init_sound(t_window *win_infos);
 
 #endif

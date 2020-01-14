@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 10:10:44 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/11 14:44:24 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/14 17:06:45 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		leave(
 {
 	if (mod == 0)
 		mlx_destroy_window(win_infos->mlx_ptr, win_infos->win_ptr);
+	system("killall afplay");
 	ft_putstr_fd(msg, 1);
 	if (msg[0])
 		write(1, "\n", 1);
@@ -91,12 +92,13 @@ int			main(
 	if (argc < 2)
 		putstr_info_cmd();
 	if (!(win_infos = init_game_window_pone())
-		|| !init_game_textures(win_infos, 4)
+		|| !init_game_textures(win_infos, 5)
 		|| !init_game_sprite(win_infos)
 		|| !init_game_map(win_infos, argv[1])
 		|| !init_game_keybuffer(win_infos)
 		|| !init_game_player(win_infos)
-		|| !init_game_window_ptwo(win_infos))
+		|| !init_game_window_ptwo(win_infos)
+		|| !init_sound(win_infos))
 		leave(1, win_infos, "");
 	need_save(win_infos, argv);
 	mlx_hook(win_infos->win_ptr, 2, 1L << 0, event_key_pressed, win_infos);

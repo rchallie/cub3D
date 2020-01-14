@@ -6,7 +6,7 @@
 #    By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/22 10:43:56 by rchallie          #+#    #+#              #
-#    Updated: 2020/01/11 14:33:22 by rchallie         ###   ########.fr        #
+#    Updated: 2020/01/14 15:56:43 by rchallie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,21 +39,28 @@ SRCS = 	cub3d.c \
 		sources/engine/draw_sprite.c \
 		sources/engine/sprite.c
 
-OBJSRCS = $(SRCS:.c=.o)
+SRCS_BONUS = 	bonus/engine/bonus_camera.c \
+				bonus/engine/bonus_health.c \
+				bonus/managers/bonus_key_manager.c \
+				bonus/engine/bonus_sound.c \
+				bonus/init_bonus.c
 
-$(NAME) : $(OBJSRCS)
+OBJSRCS = $(SRCS:.c=.o) 
+OBJSRCSBONUS = $(SRCS_BONUS:.c=.o)
+
+$(NAME) : $(OBJSRCS) $(OBJSRCSBONUS)
 	@echo "\033[33m[Remove last version...]"
 	@rm -rf Cub3D
 	@echo "\033[33m[Libft compilation...]"
 	@$(MAKE) bonus -C ./libft
 	@echo "\033[33m[Cub3D compilation...]"
-	@gcc $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
+	@gcc $(OBJSRCSBONUS) $(OBJSRCS) -I./includes -I./usr/include -Wall -Wextra -Werror $(MLX) ./libft/libft.a -o $(NAME)
 	@echo "\033[33m[Done !]"
 
 all : $(NAME)
 
 clean :
-	rm -rf $(OBJSRCS)
+	rm -rf $(OBJSRCS) $(OBJSRCSBONUS)
 	$(MAKE) clean -C ./libft
 
 fclean : clean

@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 11:24:10 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/11 16:31:07 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:38:35 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ static void		hud(
 )
 {
 	char *str;
-	char *width_itoa;
-	char *height_itoa;
+	char *itoa;
 
+	mlx_string_put(win_infos->mlx_ptr, win_infos->win_ptr, 25, 75, 0xffffff,
+	"Look Up : /\\ , Look down : \\/ , Look left : <, Look right : >");
 	mlx_string_put(win_infos->mlx_ptr, win_infos->win_ptr, 25, 100, 0xffffff,
 	"Forwars : W , Backward : S , Left : A, Right : D");
 	mlx_string_put(win_infos->mlx_ptr, win_infos->win_ptr, 25, 120, 0xffffff,
@@ -27,18 +28,14 @@ static void		hud(
 	str = ft_strjoin("Map name test: ", win_infos->map->map_name);
 	mlx_string_put(win_infos->mlx_ptr, win_infos->win_ptr, 25, 140, 0xffffff,
 	str);
-	free(str);
-	width_itoa = ft_itoa(win_infos->width);
-	str = ft_strjoin("Width : ", width_itoa);
+	itoa = ft_itoa(win_infos->width);
+	str = ft_strjoin("Width : ", itoa);
 	mlx_string_put(win_infos->mlx_ptr, win_infos->win_ptr, 25, 160, 0xffffff,
 	str);
-	free(width_itoa);
-	free(str);
-	height_itoa = ft_itoa(win_infos->height);
-	str = ft_strjoin("Height : ", height_itoa);
+	itoa = ft_itoa(win_infos->height);
+	str = ft_strjoin("Height : ", itoa);
 	mlx_string_put(win_infos->mlx_ptr, win_infos->win_ptr, 25, 180, 0xffffff,
 	str);
-	free(str);
 	return ;
 }
 
@@ -59,6 +56,8 @@ int				loop_manager(
 
 	win_infos = (t_window *)param;
 	draw(win_infos);
+	draw_health(win_infos);
 	key_manager(win_infos);
+	play_music(win_infos);
 	return (0);
 }

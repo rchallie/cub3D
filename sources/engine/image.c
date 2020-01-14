@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/04 11:12:36 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/08 13:51:59 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:16:37 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		pixel_put_to_image(
 	int color,
 	int x,
 	int y,
-	t_window *win_infos
+	t_image *img
 )
 {
 	unsigned char *src;
@@ -28,12 +28,9 @@ void		pixel_put_to_image(
 	r = src[0];
 	g = src[1];
 	b = src[2];
-	win_infos->img->data[y * win_infos->img->size_line + x
-							* win_infos->img->bpp / 8] = r;
-	win_infos->img->data[y * win_infos->img->size_line + x
-							* win_infos->img->bpp / 8 + 1] = g;
-	win_infos->img->data[y * win_infos->img->size_line + x
-							* win_infos->img->bpp / 8 + 2] = b;
+	img->data[y * img->size_line + x * img->bpp / 8] = r;
+	img->data[y * img->size_line + x * img->bpp / 8 + 1] = g;
+	img->data[y * img->size_line + x * img->bpp / 8 + 2] = b;
 }
 
 void		ver_line_color_image(
@@ -59,7 +56,7 @@ void		ver_line_color_image(
 	{
 		while (y < y_max)
 		{
-			pixel_put_to_image(color, line->x, y, win_infos);
+			pixel_put_to_image(color, line->x, y, win_infos->img);
 			y++;
 		}
 	}
@@ -74,7 +71,8 @@ static void	texture_on_img(
 {
 	int d;
 
-	d = line->y * texture->size_line - win_infos->height * texture->size_line
+	d = line->y * texture->size_line - (win_infos->height
+		* win_infos->player->cam_height) * texture->size_line
 		/ 2 + ray->line_height * texture->size_line / 2;
 	line->tex_y = ((d * texture->height) / ray->line_height)
 		/ texture->size_line;
