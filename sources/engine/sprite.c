@@ -6,13 +6,13 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/08 14:33:55 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/09 13:35:08 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/16 10:04:10 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-void			next_sprite(
+static void		next_sprite(
 	t_sprites *actual,
 	t_sprites *new,
 	t_ray *ray

@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 11:24:10 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/14 16:38:35 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/17 09:31:14 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,5 @@ int				loop_manager(
 	draw_health(win_infos);
 	key_manager(win_infos);
 	play_music(win_infos);
-	return (0);
+	return (SUCCES);
 }

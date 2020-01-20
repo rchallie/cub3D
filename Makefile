@@ -6,14 +6,14 @@
 #    By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/22 10:43:56 by rchallie          #+#    #+#              #
-#    Updated: 2020/01/14 15:56:43 by rchallie         ###   ########.fr        #
+#    Updated: 2020/01/18 16:11:24 by rchallie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MLX = -lmlx -lm -framework OpenGL -framework AppKit
 #MLX = -I /usr/include -g -L /usr/lib -lX11 -lmlx -lXext -lm -fsanitize=address
 
-NAME = Cub3D
+NAME = cub3D
 
 SRCS = 	cub3d.c \
 		utils/putstr_info.c \
@@ -29,7 +29,6 @@ SRCS = 	cub3d.c \
 		sources/managers/key_manager.c \
 		sources/managers/loop_manager.c \
 		sources/managers/window_manager.c \
-		sources/engine/mini_map.c \
 		sources/engine/player.c \
 		sources/engine/image.c \
 		sources/engine/raycasting.c \
@@ -69,3 +68,5 @@ fclean : clean
 	rm -rf cub3d.bmp
 
 re : fclean all
+
+bonus : $(NAME)

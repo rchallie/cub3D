@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/06 15:14:36 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/06 15:46:39 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/17 09:29:13 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	data_to_bitmap(
 static void	mir_verti_pixel(
 	t_image *mlx_img,
 	int line_cnt,
-	int e,
+	int *e,
 	int f
 )
 {
@@ -41,13 +41,13 @@ static void	mir_verti_pixel(
 	k = 3;
 	while (k >= 0)
 	{
-		save = mlx_img->data[e + (line_cnt * mlx_img->size_line)];
-		mlx_img->data[e + (line_cnt * mlx_img->size_line)] =
+		save = mlx_img->data[*e + (line_cnt * mlx_img->size_line)];
+		mlx_img->data[*e + (line_cnt * mlx_img->size_line)] =
 			mlx_img->data[f - k + (line_cnt * mlx_img->size_line - 1)];
 		mlx_img->data[f - k + (line_cnt * mlx_img->size_line - 1)] =
 			save;
 		k--;
-		e++;
+		*e = *e + 1;
 	}
 }
 
@@ -66,7 +66,7 @@ static int	mir_verti(
 		f = mlx_img->size_line;
 		while (e < f && e != f)
 		{
-			mir_verti_pixel(mlx_img, line_cnt, e, f);
+			mir_verti_pixel(mlx_img, line_cnt, &e, f);
 			f -= 4;
 		}
 		line_cnt++;

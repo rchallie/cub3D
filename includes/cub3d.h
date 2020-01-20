@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 11:52:11 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/14 17:10:03 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/16 17:11:42 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,10 @@ void					pixel_put_cinq(int x, int y, int color,
 void					draw_minimap(t_window *win_infos);
 void					turn_left(t_window *win_infos);
 void					turn_right(t_window *win_infos);
+void					set_start_pos(t_window *win_infos, char dir,
+						int cursor, int u);
+void					set_start_camera(t_window *win_infos, double dirx,
+						double planex, double planey);
 void					move_left(t_window *win_infos);
 void					move_right(t_window *win_infos);
 void					move_forward(t_window *win_infos);
@@ -233,8 +237,6 @@ t_sprite				*list_to_tab(t_window *win_infos);
 void					sort_sprite(t_window *win_infos, t_sprite *sprites,
 						int nbr_sprites);
 void					is_sprite(t_ray *ray, t_window *win_infos);
-void					next_sprite(t_sprites *actual, t_sprites *new,
-						t_ray *ray);
 int						create_bitmap(t_image *mlx_img, char *name);
 
 int						bonus_key_manager(t_window *win_infos);

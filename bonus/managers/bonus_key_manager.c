@@ -6,11 +6,10 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 10:37:10 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/14 14:02:51 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/16 09:17:57 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/bonus.h"
 #include "../../includes/cub3d.h"
 
 int		bonus_key_manager(

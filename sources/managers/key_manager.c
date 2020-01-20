@@ -6,12 +6,11 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 14:05:43 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/13 10:59:12 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/16 09:18:04 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
-#include "../../includes/bonus.h"
 
 int		key_manager(
 	t_window *win_infos
@@ -68,7 +67,6 @@ int		event_key_pressed(
 	t_window	*win_infos;
 
 	win_infos = (t_window *)param;
-	printf("Key %d\n", key);
 	if (key == ESC)
 		leave(0, win_infos, "");
 	else if (key == TOWARD && win_infos->keybuffer->toward == 0)

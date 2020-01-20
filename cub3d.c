@@ -6,22 +6,25 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 10:10:44 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/14 17:06:45 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/17 09:03:45 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/cub3d.h"
 
-void		need_save(
+static void		need_save(
 	t_window *win_infos,
 	char **argv
 )
 {
 	if (ft_strlen(argv[2]) > 0)
 	{
-		if (ft_strlen(argv[2]) == ft_strlen("-save") &&
-			ft_strncmp(argv[2], "-save", ft_strlen(argv[2])) == 0)
+		if (ft_strlen(argv[2]) == ft_strlen("--save") &&
+			ft_strncmp(argv[2], "--save", ft_strlen(argv[2])) == 0)
+		{
 			win_infos->save = 1;
+			raycasting(win_infos);
+		}
 		else
 			putstr_info_cmd();
 	}
@@ -29,7 +32,7 @@ void		need_save(
 		win_infos->save = 0;
 }
 
-void		leave(
+void			leave(
 	int mod,
 	t_window *win_infos,
 	char *msg
@@ -44,7 +47,7 @@ void		leave(
 	exit(0);
 }
 
-t_window	*init_game_window_pone(
+static t_window	*init_game_window_pone(
 	void
 )
 {
@@ -62,7 +65,7 @@ t_window	*init_game_window_pone(
 	return (new_win_infos);
 }
 
-int			init_game_window_ptwo(
+static int		init_game_window_ptwo(
 	t_window *win_infos
 )
 {
@@ -81,7 +84,7 @@ int			init_game_window_ptwo(
 	return (SUCCES);
 }
 
-int			main(
+int				main(
 	int argc,
 	char **argv
 )
@@ -105,7 +108,8 @@ int			main(
 	mlx_hook(win_infos->win_ptr, 3, 1L << 1, event_key_released, win_infos);
 	mlx_hook(win_infos->win_ptr, 17, 1L << 17, event_destroy_window, win_infos);
 	mlx_loop_hook(win_infos->mlx_ptr, loop_manager, win_infos);
-	mlx_loop(win_infos->mlx_ptr);
-	exit(1);
+	if (win_infos->save != 1)
+		mlx_loop(win_infos->mlx_ptr);
+	leave(0, win_infos, "");
 	return (0);
 }

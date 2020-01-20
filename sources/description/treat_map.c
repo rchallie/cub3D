@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 17:58:52 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/13 10:10:06 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/17 09:34:14 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ static char		**init_map(
 		{
 			if (!is_whitespace(str[i]))
 				map[u][cursor++] = str[i];
-			if (str[i] == 'N')
+			if (str[i] == 'N' || str[i] == 'S' ||
+				str[i] == 'W' || str[i] == 'E')
 			{
-				win_infos->player->posx = (double)(cursor - 1) + 0.5;
-				win_infos->player->posy = (double)u + 0.5;
+				set_start_pos(win_infos, str[i], cursor, u);
 				map[u][cursor - 1] = '0';
 			}
 			i++;
@@ -138,6 +138,10 @@ char			**map_from_string(
 	map = init_map(str, map, win_infos);
 	if (!check_map_norme(win_infos, map))
 		leave(1, win_infos, "Error\nIn map format");
+	if (win_infos->player->posx == -20.0 || win_infos->player->posy == -20.0
+		|| win_infos->player->dir_x == -20.0
+		|| win_infos->player->dir_y == -20.0)
+		leave(1, win_infos, "Player pos/dir did'nt set");
 	free(str);
 	return (map);
 }

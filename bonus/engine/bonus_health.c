@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 14:28:42 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/13 16:46:11 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/16 10:04:50 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void		remove_health(
 )
 {
 	if (win_infos->player->health - amount <= 0)
-		leave(0, win_infos, "Game over!\n");
+		leave(0, win_infos, "Game over!");
 	else
 		win_infos->player->health -= amount;
 }
 
-t_image		*health_img(
+static void	health_img(
 	t_window *win_infos
 )
 {
@@ -46,7 +46,7 @@ t_image		*health_img(
 	img_width = (int)(((double)191 / (double)20)
 		* (double)win_infos->player->health);
 	if (!(img = new_image(win_infos, (int)img_width, 30)))
-		return (ERROR);
+		leave(1, win_infos, "Error init image map");
 	img->width = (int)img_width;
 	img->height = 30;
 	y = 0;

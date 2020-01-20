@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 15:52:22 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/13 14:23:35 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/17 09:33:19 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ static int		is_map(
 	char	*save_map_string;
 
 	if (line[first_char] == '1' || line[first_char] == '2'
-			|| line[first_char] == '0' || line[first_char] == 'N')
+			|| line[first_char] == '0' || line[first_char] == 'N'
+			|| (line[first_char] == 'S') || (line[first_char] == 'W')
+			|| (line[first_char] == 'E'))
 	{
 		save_map_string = *map_string;
 		*map_string = ft_strjoin(*map_string, line);

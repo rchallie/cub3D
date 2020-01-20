@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 11:34:02 by rchallie          #+#    #+#             */
-/*   Updated: 2020/01/13 16:52:10 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/16 09:32:16 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		perp_and_height(
 		ray->draw_end = win_infos->height - 1;
 }
 
-void		predict_wall_face(
+static void	predict_wall_face(
 	t_ray *ray
 )
 {

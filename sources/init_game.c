@@ -6,7 +6,7 @@
 /*   By: rchallie <rchallie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 22:49:46 by excalibur         #+#    #+#             */
-/*   Updated: 2020/01/14 15:11:44 by rchallie         ###   ########.fr       */
+/*   Updated: 2020/01/17 09:08:18 by rchallie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int			init_game_player(
 	if (!(win_infos->player = malloc(sizeof(t_player))))
 		return (ERROR);
 	ft_bzero(win_infos->player, sizeof(t_player));
-	win_infos->player->posx = 0.0;
-	win_infos->player->posy = 0.0;
+	win_infos->player->posx = -20.0;
+	win_infos->player->posy = -20.0;
 	win_infos->player->speed = 0.10;
 	win_infos->player->dir_x = 1.0;
 	win_infos->player->dir_y = 0.0;
-	win_infos->player->plane_x = 0.0;
-	win_infos->player->plane_y = 0.66;
+	win_infos->player->plane_x = -20.0;
+	win_infos->player->plane_y = -20.0;
 	win_infos->player->rotate_speed = 0.10;
 	win_infos->player->cam_height = 1.0;
 	win_infos->player->health = 20;
