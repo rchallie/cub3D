@@ -30,12 +30,10 @@ static void	determine_side_draw(
 	if (ray->side == 3)
 		img = win_infos->textures[0];
 	tex_x = (int)(wall_x * (double)img->width);
-	// --- Not usefull here beacause we have one texture by side so did'nt need morroring to have smotth texture --- */ 
 	if ((ray->side == 0 || ray->side == 1) && ray->ray_dir_x > 0)
 		tex_x = img->width - tex_x - 1;
 	if ((ray->side == 2 || ray->side == 3) && ray->ray_dir_y < 0)
 		tex_x = img->width - tex_x - 1;
-	// ------------------------------------------------------------------------------------------------------------- */
 	line->y0 = ray->draw_end;
 	line->y1 = ray->draw_start;
 	line->tex_x = tex_x;

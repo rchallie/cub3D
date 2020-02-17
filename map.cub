@@ -1,3 +1,4 @@
+S ./textures/pillar.xpm
 	R 900 600
 
 H ./textures/health.xpm
